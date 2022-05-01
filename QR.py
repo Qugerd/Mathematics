@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.linalg as lin
-import math
+from numpy import sqrt
 from massive import a, b
 
 np.set_printoptions(linewidth=1000)
@@ -14,7 +14,7 @@ for i in range(n):
         GS_b += (np.dot(a[:, i], q[:, j]) / np.dot(q[:, j], q[:, j])) * q[:, j]
 
     q[:, i] = a[:, i] - GS_b
-    q[:, i] = q[:, i] / math.sqrt(np.dot(q[:, i], q[:, i]))
+    q[:, i] = q[:, i] / sqrt(np.dot(q[:, i], q[:, i]))
     GS_b = np.zeros(n)
 
 r = lin.inv(q).dot(a)

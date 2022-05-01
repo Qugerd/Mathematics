@@ -1,8 +1,6 @@
 import numpy as np
 from massive import a, b
 
-
-
 def gradient(data, data_2):
     n = data.shape[0]
     eps = 10 ** -10
@@ -23,6 +21,7 @@ def gradient(data, data_2):
         x = x - f.dot(lambd)
 
 gradient(a, b)
+
 
 
 

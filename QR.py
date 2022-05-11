@@ -20,4 +20,3 @@ for i in range(n):
 r = lin.inv(q).dot(a)
 x = np.round((lin.inv(r).dot(np.transpose(q))).dot(b), 7)
 print(x)
-

@@ -60,6 +60,3 @@ for i in range(n):
 
 print(l)
 print(u)
-#print(r)
-
-

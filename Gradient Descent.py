@@ -20,11 +20,4 @@ def gradient(data, data_2):
         lambd = (r.dot(r)) / (r.dot(a.dot(r)))
         x = x - f.dot(lambd)
 
-gradient(a, b)
-
-
-
-
-
-
-
+print(gradient(a, b))

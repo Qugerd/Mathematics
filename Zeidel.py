@@ -4,7 +4,7 @@ from massive import A
 # [0.68505222 1.03484008 0.56298956 0.01525783]
 k = 0
 n = A.shape[0]
-eps = 10 ** -5
+eps = 10 ** -10
 
 x = np.zeros(n)
 x_0 = np.squeeze(np.asarray(A[:, len(A[0]) - 1:]))
@@ -34,4 +34,3 @@ while max(abs(x - x_new) > eps):
 
 print(x)
 print('Число итераций:', k)
-

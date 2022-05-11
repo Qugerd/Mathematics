@@ -29,5 +29,3 @@ for j in range(n):
 print(np.transpose(L))
 
 print(np.around(np.dot(L, np.transpose(L)), decimals=1))
-
-

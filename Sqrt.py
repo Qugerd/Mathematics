@@ -1,31 +1,78 @@
-import colorama
+from cmath import sqrt
 import numpy as np
-
 np.set_printoptions(linewidth=1000)
 
-H = [
-    [2.2, 4, -3, 1.5, 0.6, 2, 0.7],
-    [4, 3.2, 1.5, -0.7, -0.8, 3, 1],
-    [-3, 1.5, 1.8, 0.9, 3, 2, 2],
-    [1.5, -0.7, 0.9, 2.2, 4, 3, 1],
-    [0.6, -0.8, 3, 4, 3.2, 0.6, 0.7],
-    [2, 3, 2, 3, 0.6, 2.2, 4],
-    [0.7, 1, 2, 1, 0.7, 4, 3.2]
-]
+def createS(matrix):
+    size = matrix.shape[0]
+    matrixS = np.zeros((size, size), dtype=complex)
+    matrixS[0] = matrix[0] / sqrt(matrix[0][0])
+    matrixS[0][0] = sqrt(matrix[0][0])
 
-a = np.array(H, complex)
+    for i in range(size):
+        matrixS[i][i] = sqrt(matrix[i][i] - sum((matrixS[k][i]) ** 2 for k in range(i)))
+        for j in range(i, size):
+            matrixS[i][j] = (matrix[i][j] - sum((matrixS[k][i] * matrixS[k][j]) for k in range(i))) / matrixS[i][i]
 
-L = np.zeros_like(a)
-n,_ = np.shape(a)
-
-for j in range(n):
-    for i in range(j, n):
-        if i == j:
-            L[i, j] = np.sqrt(a[i, j] - np.sum(L[i, :j] ** 2))
-        else:
-            L[i, j] = (a[i, j] - np.sum(L[i, :j] * L[j, :j])) / L[j, j]
+    print(matrixS)
+    return matrixS
 
 
-print(np.transpose(L))
+def getAnsver(s, v):
+    size = s.shape[0]
+    y = np.zeros(size, dtype=complex)
 
-print(np.around(np.dot(L, np.transpose(L)), decimals=1))
+    for i in range(len(s)):
+        y[i] = (v[i] - sum([s[k][i] * y[k] for k in range(i)])) / s[i][i]
+
+    return y
+
+
+def solveTriangular(matrix, y):
+    n = matrix.shape[0]
+    x = np.zeros(n, dtype=complex)
+
+    for i in range(n):
+        for j in range(i):
+            y[n - 1 - i] -= matrix[n - 1 - i][n - 1 - j] * x[n - 1 - j]
+        x[n - 1 - i] = y[n - 1 - i] / matrix[n - 1 - i][n - 1 - i]
+
+    return x
+
+
+def squareRoot(matrix, vector):
+    matrix = matrix.copy()
+    vector = vector.copy()
+
+    matrixS = createS(matrix)
+    y = getAnsver(matrixS, vector)
+    x = solveTriangular(matrixS, y)
+
+    return x
+
+a = np.array([[16, 2, 0, -2],
+                [4, 20, 1, 0],
+                [2, 0, 10, 0],
+                [-4, 0, 4, 32]], float)
+
+
+b = np.array([13, 24, 7, 0], float)
+
+squareRoot(a, b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

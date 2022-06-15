@@ -1,41 +1,71 @@
 import numpy as np
 
 
-# Bordering method
-def inv_matrix(matrix):
-    n = matrix.shape[0]
+def dot(a, b):
+    if (type(a[0]) != list):
+        if (len(a) == len(b)):
+            a = [a]
+        elif (len(b) == 1):
+            a = np.transpose([a])
 
-    if n == 1:
-        return 1 / matrix[0, 0]
+    if (type(b[0]) != list):
+        if (len(a[0]) == len(b)):
+            b = np.transpose([b])
+        elif (len(a[0]) == 1):
+            b = [b]
 
-    inv_mat = matrix.copy()
-    inv_mat[0, 0] = 1 / inv_mat[0, 0]
-
-    for k in range(1, n):
-        mat_k = inv_mat[:k, :k]
-        u_k = np.matrix(np.zeros([k, 1]))
-        for i in range(k):
-            u_k[i] = inv_mat[i, k]
-        v_k = inv_mat[k, :k]
-        m_kk = inv_mat[k, k]
-
-        y_k = v_k.dot(mat_k)
-        x_k = mat_k.dot(u_k)
-        z_k = v_k * x_k
-        m_k = np.squeeze(np.asarray(m_kk - z_k))
-
-        inv_mat[k, k] = 1 / m_k
-        inv_mat[k, :k] = -(1 / m_k) * y_k
-        inv_mat[:k, k] = -(1 / m_k) * np.squeeze(x_k)
-        inv_mat[:k, :k] = mat_k + ((1 / m_k) * x_k * y_k)
-
-    return inv_mat
+    if (len(a[0]) == len(b)):
+        temp = [[0 for j in range(len(b[0]))] for i in range(len(a))]
+        for i in range(len(a)):
+            for j in range(len(b[0])):
+                temp[i][j] = sum([a[i][k] * b[k][j] for k in range(len(b))])
+        return temp
 
 
-def solve_le(data):
-    matrix = data[:, :len(data[0]) - 1]
-    b = np.squeeze(np.asarray(data[:, len(data[0]) - 1:]))
+def mainMinor(matrix, size):
+    return [[matrix[i][j] for j in range(size)] for i in range(size)]
 
-    inv_mat = inv_matrix(matrix)
 
-    return np.round(inv_mat.dot(b), 7)
+def createInverse(matrix):
+    size = 1
+    prev_inv = [[1 / matrix[0][0]]]
+
+    while (len(prev_inv) < len(matrix)):
+        size += 1
+        temp_minor = mainMinor(matrix, size)
+
+        v = [temp_minor[size - 1][:-1]]
+        u = [[temp_minor[i][size - 1]] for i in range(size - 1)]
+
+        alpha = 1 / (temp_minor[size - 1][size - 1] - dot(dot(v, prev_inv), u)[0][0])
+
+        rn = (np.array(dot(prev_inv, u)) * (-alpha)).tolist()
+        qn = (np.array(dot(v, prev_inv)) * (-alpha)).tolist()
+
+        Bn = prev_inv - np.array(dot(dot(prev_inv, u), qn))
+        prev_inv = Bn.tolist()
+
+        for i in range(len(rn)):
+            prev_inv[i].append(rn[i][0])
+        qn[0].append(alpha)
+        prev_inv.append(qn[0])
+    return prev_inv
+
+
+def inverse(matrix, vector):
+    prev_inv = createInverse(matrix)
+
+    temp = dot(matrix, prev_inv)
+    x = dot(prev_inv, vector)
+
+    return (np.transpose(x)[0])
+
+a = np.array([[16, 2, 0, -2],
+                [4, 20, 1, 0],
+                [2, 0, 10, 0],
+                [-4, 0, 4, 32]], float)
+
+
+b = np.array([13, 24, 7, 0], float)
+
+print(inverse(a, b))

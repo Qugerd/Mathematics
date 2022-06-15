@@ -1,6 +1,7 @@
 import numpy as np
 from math import sqrt
-
+from scipy.linalg import eig
+#
 # m = [
 # 	[2 , 1  , 1],
 # 	[1 , 2.5, 1],
@@ -64,17 +65,33 @@ def solve(a, p):
             a = C
             i, j = get_max_index(a)
             count += 1
+
     print(count)
     return [a[i][i] for i in range(len(a))]
 
 
-m = solve(m, 6)
+m = solve(m, 1)
 e = np.eye(len(m))
 for i in range(len(m)):
 	e[i][i] *= m[i]
 
 e *= -1
 a = m + e
-m.sort()
-m.reverse()
+
+
 print(m)
+
+
+m2= [[2.2, 1., 0.5, 2.],
+                  [1., 1.3, 2., 1.],
+                  [0.5, 2, 0.5, 1.6],
+                  [2., 1., 1.6, 2.]]
+
+m1 = [
+	[2 , 1  , 1],
+	[1 , 2.5, 1],
+	[1 , 1  , 3],
+]
+
+w, i = eig(m2)
+print('numpy',w)

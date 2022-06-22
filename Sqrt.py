@@ -13,7 +13,6 @@ def createS(matrix):
         for j in range(i, size):
             matrixS[i][j] = (matrix[i][j] - sum((matrixS[k][i] * matrixS[k][j]) for k in range(i))) / matrixS[i][i]
 
-    print(matrixS)
     return matrixS
 
 
@@ -49,15 +48,19 @@ def squareRoot(matrix, vector):
 
     return x
 
-a = np.array([[16, 2, 0, -2],
-                [4, 20, 1, 0],
-                [2, 0, 10, 0],
-                [-4, 0, 4, 32]], float)
+a = np.array([[1, 3, -2, 0, -2],
+                [3, 4, -5, 1, -3],
+                [-2, -5, 3, -2, 2],
+                [0, 1, -2, 5, 3],
+                [-2, -3, 2, 3, 4]], float)
 
+b = np.array([0.5,
+              5.4,
+              5.0,
+              7.5,
+              3.3], float)
 
-b = np.array([13, 24, 7, 0], float)
-
-squareRoot(a, b)
+print(squareRoot(a, b).real)
 
 
 

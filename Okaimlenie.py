@@ -49,6 +49,7 @@ def createInverse(matrix):
             prev_inv[i].append(rn[i][0])
         qn[0].append(alpha)
         prev_inv.append(qn[0])
+
     return prev_inv
 
 

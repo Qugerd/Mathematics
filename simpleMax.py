@@ -32,3 +32,8 @@ while(la.norm(new_x*np.sign(lamda) - x) > eps):
 print('Итераций:', count,'Max:', lamda)
 w, i = eig(matrix)
 print('numpy',w)
+#
+# matrix = np.array([[2.2, 1, 0.5, 2],
+#                 [1, 1.3, 2, 1],
+#                 [0.5, 2, 0.5, 1.6],
+#                 [2, 1, 1.6, 2]], float)

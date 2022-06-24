@@ -1,9 +1,10 @@
 import math
 import numpy as np
 from numpy import linalg as la
+from rotate import rotate
 
-EPS = 10 ** -2
-n=5
+EPS = 10 ** -5
+n=14
 
 a = np.array([[16, 2, 0, -2],
                 [4, 20, 1, 0],
@@ -32,6 +33,7 @@ def richardson(matrix, vector, maxSelf, minSelf, n):
 
     return x
 
-ls = la.eig(a)[0]
+ls = np.array(rotate(a, 6))
+print(ls)
 min, max = ls.min(), ls.max()
 richardson(a, b, max, min, n)

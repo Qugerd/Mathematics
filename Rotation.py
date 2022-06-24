@@ -10,10 +10,10 @@ from scipy.linalg import eig
 # np.set_printoptions(precision=2, suppress=True)
 
 
-m= [[2.2, 1., 0.5, 2.],
-                  [1., 1.3, 2., 1.],
-                  [0.5, 2, 0.5, 1.6],
-                  [2., 1., 1.6, 2.]]
+m= [[16, 2, 0, -2],
+                [4, 20, 1, 0],
+                [2, 0, 10, 0],
+                [-4, 0, 4, 32]]
 
 def sgn(num):
     return 1 if num > 0 else -1
@@ -38,7 +38,6 @@ def solve(a, p):
 
     for p in o:
         i, j = get_max_index(a)
-
 
         while (abs(a[i][j]) >= p):
             d = sqrt(((a[i][i] - a[j][j]) ** 2 + 4 * (a[i][j]) ** 2))
@@ -81,17 +80,12 @@ a = m + e
 
 print(m)
 
+m1 = np.array([[16, 2, 0, -2],
+                [4, 20, 1, 0],
+                [2, 0, 10, 0],
+                [-4, 0, 4, 32]], float)
 
-m2= [[2.2, 1., 0.5, 2.],
-                  [1., 1.3, 2., 1.],
-                  [0.5, 2, 0.5, 1.6],
-                  [2., 1., 1.6, 2.]]
 
-m1 = [
-	[2 , 1  , 1],
-	[1 , 2.5, 1],
-	[1 , 1  , 3],
-]
+m2 = np.array([13, 24, 7, 0], float)
 
-w, i = eig(m2)
-print('numpy',w)
+
